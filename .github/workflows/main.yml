@@ -1,40 +1,32 @@
 name: Generate Datas
 
 on:
-  # Uruchamiaj automatycznie co 12 godzin
   schedule:
     - cron: "0 */12 * * *"
-  # Umożliwia ręczne uruchomienie z poziomu zakładki Actions na GitHub
   workflow_dispatch:
 
 jobs:
   build:
     name: Jobs to update datas
     runs-on: ubuntu-latest
-
-    # Krok 1: Nadaj uprawnienia do zapisu dla GITHUB_TOKEN.
-    # To jest kluczowe, aby naprawić błąd 403 (Permission denied).
     permissions:
       contents: write
 
     steps:
-      # Krok 2: Generuj animację węża przy użyciu zaktualizowanej akcji.
       - uses: Platane/snk@v3
         id: snake-gif
         with:
-          # Pobieraj nazwę użytkownika automatycznie z kontekstu repozytorium.
           github_user_name: ${{ github.repository_owner }}
-          
-          # Generuj plik SVG z ciemnym motywem, dodając parametr palety do nazwy pliku.
-          outputs: dist/github-contribution-grid-snake.svg?palette=github-dark
+          # Zaktualizowana sekcja: generujemy DWA pliki SVG
+          # 1. Standardowy (jasny)
+          # 2. Z ciemną paletą (z sufiksem -dark)
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      # Krok 3: Wdróż wygenerowane pliki do gałęzi 'output' przy użyciu zaktualizowanej akcji.
       - uses: crazy-max/ghaction-github-pages@v4
         with:
-          # Nazwa gałęzi, do której zostaną wysłane pliki.
           target_branch: output
-          # Katalog, który ma zostać opublikowany.
           build_dir: dist
         env:
-          # Użyj GITHUB_TOKEN do autoryzacji operacji push.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
