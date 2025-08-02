@@ -1,25 +1,32 @@
 name: Generate Datas
+
 on:
-  schedule: # execute every 12 hours
+  schedule: # uruchamiaj co 12 godzin
     - cron: "0 */12 * * *"
-  workflow_dispatch:
+  workflow_dispatch: # pozwala na ręczne uruchomienie
+
 jobs:
   build:
     name: Jobs to update datas
     runs-on: ubuntu-latest
+
+    # KROK 1: Dodanie uprawnień do zapisu dla GITHUB_TOKEN
+    permissions:
+      contents: write
+
     steps:
-      # Krok 1: Generowanie animacji węża
-      - uses: Platane/snk@master
+      # Krok 2: Aktualizacja akcji do nowszych wersji
+      - uses: Platane/snk@v3
         id: snake-gif
         with:
-          github_user_name: jakubm3
-          svg_out_path: dist/github-contribution-grid-snake.svg
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      # Krok 2: Wdrożenie do gałęzi 'output'
-      - uses: crazy-max/ghaction-github-pages@v2.1.3
+      - uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
           build_dir: dist
-          # Poprawne wcięcie dla 'env'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
