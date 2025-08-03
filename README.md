@@ -1,1 +1,1 @@
-<img width="5910" height="3010" alt="word-cloud-2" src="https://github.com/user-attachments/assets/beea693c-9a13-41d1-b2d5-a78f4c97de7f" />
+<img width="5910" height="3010" alt="word-cloud-3" src="https://github.com/user-attachments/assets/dfc19f91-f76d-4b68-8c66-b38bf3dc047b" />
